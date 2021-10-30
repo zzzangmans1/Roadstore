@@ -30,7 +30,7 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
       ?>
     <header class="jumbotron text-center">
       <img src="http://post.phinf.naver.net/20160901_256/1472708857265p6JHM_JPEG/IdNRIq4h0SXpm9CGYX5AGj8ikoZk.jpg" alt="붕어빵" class="img-circle" id="logo">
-        <h1><a id="logo_name" href="http://localhost/index.php">붕어빵</a></h1>
+        <h1><a id="logo_name" style="text-decoration-line: none;" href="http://localhost/index.php">붕어빵</a></h1>
     </header>
     <div class="row">
         <nav class="col-md-3">
@@ -76,9 +76,11 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
                 $search = $_POST['search'];
 								$sql = "SELECT * FROM `topic` WHERE concat(title, description) REGEXP '$search' order by `created` DESC";
 								$result = mysqli_query($conn, $sql);
-								while($row = mysqli_fetch_assoc($result)){
-									require("all_town.php");
-								}
+
+                echo "<br> $search 문자열 검색완료";
+                while($row = mysqli_fetch_assoc($result)){
+                  require("all_town.php");
+                }
 							}
 							// id 파라미터가 있으면
 							if($_GET['id']){
@@ -91,9 +93,12 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
 								echo '<div>'.htmlspecialchars($row['created']).'</div>';
 								echo '<div><br>'.htmlspecialchars($row['author']).'</div>';
 				        echo '<div><br>'.htmlspecialchars($row['description']).'</div>';
+
 								// 현재 게시자가 로그인값과 같으면 삭제버튼 생성
 								if($user_id == $row['author']) echo '<br><a id="delete" href="http://localhost/del_board.php?id='.$row['id'].'" style="text-decoration-line: none;">DELETE</a><br>';
 								// del_board.php 에 게시판 id 값을 보내는 코드
+                // 뒤로가기 하면 history 쌓여있어서 error 발생 하므로 index.php로 이동
+                echo '<br><a id="delete" href="http://localhost/index.php" style="text-decoration-line: none;">index.php</a><br>';
 							}
 							if (strstr($_GET['state'], "board")) // state 값에 board가 있다면 페이지 이동 버튼 생성
 						{?>
