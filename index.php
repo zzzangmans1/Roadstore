@@ -46,7 +46,7 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
         <nav class="col-md-3">
           <?php //strstr() 1.인자는 전체 문장 2.인자는 찾을 단어
           if (strstr($_GET['state'], "Jindo_board")){ //아이디값에 jindo 값이 있으면 밑에 리스트 출력
-						$sql = "SELECT * FROM topic where addr LIKE '전남 진도군%'";
+						$sql = "SELECT * FROM topic where addr LIKE '전남 진도군%' order by created DESC";
 						$result = mysqli_query($conn, $sql);
 					?>
 					<ul id="town"class="nav nav-pills nav-stacked btn-lg text-center">
@@ -63,7 +63,7 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
 					</ul>
 					<?php //strstr() 1.인자는 전체 문장 2.인자는 찾을 단어
           if (strstr($_GET['state'], "Gwangju_board")){ //아이디값에 jindo 값이 있으면 밑에 리스트 출력
-						$sql = "SELECT * FROM topic where addr LIKE '광주광역시%'";
+						$sql = "SELECT * FROM topic where addr LIKE '광주광역시%' order by created DESC";
 						$result = mysqli_query($conn, $sql);
 					?>
 					<ul id="town"class="nav nav-pills nav-stacked btn-lg text-center">
@@ -80,13 +80,21 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
         <div id="mainboard" class="col-md-9">
           <article>
 							<?php
+							$uri= $_SERVER['REQUEST_URI'];	// 현재 uri를 구한다.
+							if($uri == "/index.php"){
+								$sql = "SELECT * FROM topic order by created DESC";
+								$result = mysqli_query($conn, $sql);
+								while($row = mysqli_fetch_assoc($result)){
+									require("all_town.php");
+								}
+							}
+							// id 파라미터가 없으면
 							if (empty($_GET['id'])) {
 								while ($row = mysqli_fetch_assoc($result)){
 											 require("town.php");
 			               }
 							}
-							// id 값이 있으면
-
+							// id 파라미터가 있으면
 							else if($_GET['id']){
 								$conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dname']);
 								$id = mysqli_real_escape_string($conn, $_GET['id']);
@@ -98,7 +106,9 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
 								echo '<div>'.htmlspecialchars($row['created']).'</div>';
 								echo '<div><br>'.htmlspecialchars($row['author']).'</div>';
 				        echo '<div><br>'.htmlspecialchars($row['description']).'</div>';
+								// 현재 게시자가 로그인값과 같으면 삭제버튼 생성
 								if($user_id == $row['author']) echo '<a href="http://localhost/del_board.php?id='.$row['id'].'" style="text-decoration-line: none;">DELETE</a>';
+								// del_board.php 에 게시판 id 값을 보내는 코드
 							}
 							if (strstr($_GET['state'], "board")) // state 값에 board가 있다면 페이지 이동 버튼 생성
 						{?>
