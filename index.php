@@ -1,6 +1,8 @@
 <?php
-session_cache_expire(1800);// 세션 유지시간 30분.
+session_cache_expire(18000);// 세션 유지시간 30분.
 session_start();
+
+if(!$_SESSION['user_id']) require("logout.php");
 if(!isset($_SESSION['user_id']) || !isset($_SESSION['user_name'])) {
 	echo "로그인 하십시오.";
 	echo "<meta http-equiv='refresh' content='2 ;url=signin.php'>";
@@ -24,6 +26,12 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <link rel="stylesheet" type="text/css" href="http://localhost/style.css">
   <link href="http://localhost/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<script>
+		function del_func(){
+			alert("Del!");
+		}
+	</script>
 </head>
 <body id="target" class="black">
   <div class="container">
@@ -73,27 +81,26 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
           <article>
 							<?php
 							if (empty($_GET['id'])) {
-								while ($row = mysqli_fetch_assoc($result))
-			               {
+								while ($row = mysqli_fetch_assoc($result)){
 											 require("town.php");
 			               }
 							}
 							// id 값이 있으면
+
 							else if($_GET['id']){
+								$conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dname']);
 								$id = mysqli_real_escape_string($conn, $_GET['id']);
 								$sql = "SELECT * FROM topic WHERE id =".$id;
 								$result = mysqli_query($conn, $sql);
 								$row = mysqli_fetch_assoc($result);
-
 								echo '<h1>'.htmlspecialchars($row['title']).'</h1>';
-								echo '<h2>'.htmlspecialchars($row['addr']).'</h2>';
+								echo '<h2><br>'.htmlspecialchars($row['addr']).'</h2>';
 								echo '<div>'.htmlspecialchars($row['created']).'</div>';
-								echo '<div>'.htmlspecialchars($row['author']).'</div>';
-				        echo '<div>'.htmlspecialchars($row['description']).'</div>';
-
+								echo '<div><br>'.htmlspecialchars($row['author']).'</div>';
+				        echo '<div><br>'.htmlspecialchars($row['description']).'</div>';
+								if($user_id == $row['author']) echo '<a href="http://localhost/del_board.php?id='.$row['id'].'" style="text-decoration-line: none;">DELETE</a>';
 							}
-							//if ($_SESSION['user_id']) == $row['author'])
-							if (strstr($_GET['state'], "board")) // where 값에 board가 있다면 페이지 이동 버튼 생성
+							if (strstr($_GET['state'], "board")) // state 값에 board가 있다면 페이지 이동 버튼 생성
 						{?>
 						<div id="Pagination" class="text-center">
 							<ul class="pagination">					<!-- pagination 클래스는 페이지 변경 bootstrap -->
@@ -101,7 +108,6 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
 						<?php
 						$sql = "SELECT COUNT(*) FROM `topic`"; // 게시판 개수 담는 변수
 						$result = mysqli_query($conn, $sql);
-
 						while ($row = mysqli_fetch_assoc($result)) {
 							$num = 1;
 							$page_num = 1;
@@ -137,8 +143,8 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
             <a href="http://localhost/write.php" class="btn btn-success  btn-lg">
               <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
             </a>
-					<?php }?>
-
+					<?php }
+					 ?>
           </div>
         </div>
     </div>
