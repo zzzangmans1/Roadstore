@@ -30,7 +30,7 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
       ?>
     <header class="jumbotron text-center">
       <img src="http://post.phinf.naver.net/20160901_256/1472708857265p6JHM_JPEG/IdNRIq4h0SXpm9CGYX5AGj8ikoZk.jpg" alt="붕어빵" class="img-circle" id="logo">
-        <h1><a href="http://localhost/index.php">붕어빵</a></h1>
+        <h1><a id="logo_name" href="http://localhost/index.php">붕어빵</a></h1>
     </header>
     <div class="row">
         <nav class="col-md-3">
