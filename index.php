@@ -1,5 +1,5 @@
 <?php
-session_cache_expire(18000);// 세션 유지시간 30분.
+session_cache_expire(1800);// 세션 유지시간 30분.
 session_start();
 
 if(!$_SESSION['user_id']) require("logout.php");
