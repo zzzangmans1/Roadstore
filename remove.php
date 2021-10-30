@@ -19,9 +19,10 @@ session_destroy();  // 세션 삭제
     }
     // 회원 탈퇴하는 함수
     function onclick_remove(){
-
       <?php
       $sql = "DELETE FROM `user` WHERE `user_id`='$sign_id'";
+      $result = mysqli_query($conn, $sql) or die("db query failed!");
+      $sql = "DELETE FROM `topic` WHERE `author`='$sign_id'";
       $result = mysqli_query($conn, $sql) or die("db query failed!");
       mysqli_close($conn);
       ?>
