@@ -261,7 +261,7 @@ $user_name = $_SESSION['user_name'];
            <?php } ?>
            </ul>
         </div>
-             <form class="d6 col-md-3 text-right" id="search">>
+            <form action="search.php" method = "post" class="d6 col-md-3 text-right" id="search">>
                <input type="text" placeholder="검색어 입력">
                <button type="submit"></button>
              </form>
