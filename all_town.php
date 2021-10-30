@@ -8,7 +8,7 @@
   <body>
     <ul id="board">
       <?php
-        echo '<li class="text-left"><a id="bd_name"  href="http://localhost/index.php?state=Jindo_board&id='.$row['id'].'"><br>'.htmlspecialchars($row['title']).'</a><br></li>'.
+        echo '<li class="text-left"><a id="bd_name"  href="http://http://localhost/index.php?id='.$row['id'].'"><br>'.htmlspecialchars($row['title']).'</a><br></li>'.
         '<p class="text-right">'.htmlspecialchars($row['author'])."&nbsp;"."&nbsp;".htmlspecialchars($row['created']).'</p>'; // "&nbsp;" html 공백넣기.
       ?>
     </ul>
