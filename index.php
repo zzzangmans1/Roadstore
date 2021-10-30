@@ -96,7 +96,6 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
 							}
 							// id 파라미터가 있으면
 							else if($_GET['id']){
-								$conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dname']);
 								$id = mysqli_real_escape_string($conn, $_GET['id']);
 								$sql = "SELECT * FROM topic WHERE id =".$id;
 								$result = mysqli_query($conn, $sql);
