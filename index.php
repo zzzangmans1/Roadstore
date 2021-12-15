@@ -2,9 +2,8 @@
 session_cache_expire(1800);// 세션 유지시간 30분.
 session_start();
 
-if(!$_SESSION['user_id']) require("logout.php");
 if(!isset($_SESSION['user_id']) || !isset($_SESSION['user_name'])) {
-	echo "로그인 하십시오.";
+	echo "<br>로그인 하십시오.";
 	echo "<meta http-equiv='refresh' content='2 ;url=signin.php'>";
 	exit;
 }
@@ -14,7 +13,6 @@ require("config/config.php");
 require("lib/db.php");
 
 $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dname']);
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -105,8 +103,11 @@ $conn = db_init($config['host'], $config['duser'], $config['dpw'], $config['dnam
 								echo '<div>'.htmlspecialchars($row['created']).'</div>';
 								echo '<div><br>'.htmlspecialchars($row['author']).'</div>';
 				        echo '<div><br>'.htmlspecialchars($row['description']).'</div>';
+								echo '<br>';
+								echo '<p><iframe width="600" height="600" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDKWrxLX1Ed8od43Sa-NB2Pl_oniyFTPFY&q='.$row['addr'].'"> </iframe></p>';
 								// 현재 게시자가 로그인값과 같으면 삭제버튼 생성
-								if($user_id == $row['author']) echo '<br><a id="delete"href="http://localhost/del_board.php?id='.$row['id'].'">DELETE</a><br>';
+								if($user_id == $row['author']) echo '<br><a id="delete"href="http://localhost/del_board.php?id='.$row['id'].'">DELETE</a><a id="edit"href="http://localhost/edit.php?id='.$row['id'].'">EDIT</a><br>';
+
 								// del_board.php 에 게시판 id 값을 보내는 코드
 							}
 							if (strstr($_GET['state'], "board")) // state 값에 board가 있다면 페이지 이동 버튼 생성
