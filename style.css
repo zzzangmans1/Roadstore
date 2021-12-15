@@ -9,7 +9,25 @@ body.black{
 #logo_name {
   text-decoration-line: none;
 }
-
+#delete {
+  text-decoration-line: none;
+  color: red;
+  background: white;
+  font-size: 1.2em;
+  padding: 0.3em 0.5em;
+  margin-right: 0.1em;
+}
+#edit {
+  text-decoration-line: none;
+  color: green;
+  background: white;
+  font-size: 1.2em;
+  padding: 0.3em 0.5em;
+  margin-right: 0.1em;
+}
+#delete:hover {
+  background-color: gray;
+}
 .col-md-3{
   border-right: 1px gray solid;
   margin: 0px;
