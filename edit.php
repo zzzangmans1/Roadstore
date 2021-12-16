@@ -34,7 +34,7 @@ $result = mysqli_query($conn, "SELECT * FROM topic");
         return theForm.description.focus();
       }
       if(theForm.title.value != "" && theForm.addr.value != "" && theForm.description.value != "" ) {
-        theForm.action= "edit_process.php?id=<?php $_GET['id'] ?>";
+        theForm.action= "edit_process.php?id=<?php echo($_GET['id']) ?>";
         theForm.submit(); //비어있지 않으면 폼 넘긴다.
       }
     }
