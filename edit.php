@@ -21,6 +21,8 @@ $result = mysqli_query($conn, "SELECT * FROM topic");
   <script language="javaScript">
     function check_onclick(){
       theForm=document.board;
+      // 지번주소 정규식 ex) 전라남도 진도군 진도읍 성내리 1-1번지 광주광역시 서구 치평동 1107번지
+      const regaddr = /^[ㄱ-ㅎㅏ-ㅣ가-힣]{2,4}(도 |시 )[ㄱ-ㅎㅏ-ㅣ가-힣]{1,3}(시 |군 |구 )[ㄱ-ㅎㅏ-ㅣ가-힣]{1,3}(읍 |면 |동 )[ㄱ-ㅎㅏ-ㅣ가-힣]?[ㄱ-ㅎㅏ-ㅣ가-힣]?[ㄱ-ㅎㅏ-ㅣ가-힣]?[ ]?[0-9]{1,4}[-]?[0-9]?[0-9]?[0-9]?[0-9]?(번지)$/;
       if(theForm.title.value == "") {
         alert("제목을 입력해주세요.");
         return theForm.title.focus();
@@ -34,8 +36,17 @@ $result = mysqli_query($conn, "SELECT * FROM topic");
         return theForm.description.focus();
       }
       if(theForm.title.value != "" && theForm.addr.value != "" && theForm.description.value != "" ) {
-        theForm.action= "edit_process.php?id=<?php echo($_GET['id']) ?>";
-        theForm.submit(); //비어있지 않으면 폼 넘긴다.
+        // 주소가 정규식에 맞지 않으면 틀린다.
+        if(!(regaddr.test(theForm.addr.value))){
+          alert("주소에 e.g. 양식에 맞게 입력해주세요.");
+          return theForm.addr.focus();
+        }
+        //비어있지 않으면 폼 넘긴다.
+        else{
+          theForm.action= "process.php";
+          theForm.submit();
+        }
+
       }
     }
   </script>
